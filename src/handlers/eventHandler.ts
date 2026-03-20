@@ -19,6 +19,6 @@ export async function loadEvents(client: Client) {
     } else {
       client.on(event.name, (...args) => event.execute(client, ...args));
     }
-    consoleLog(`Loaded: ${event.name}`);
+    consoleLog(`Loaded Event: ${event.name}`);
   }
 }
