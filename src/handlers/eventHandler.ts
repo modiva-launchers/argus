@@ -3,6 +3,7 @@ import { readdirSync } from 'fs';
 import { join } from 'path';
 import type { Event } from '../types';
 import { pathToFileURL } from 'url';
+import { consoleLog } from './terminalLoggingHandler';
 
 export async function loadEvents(client: Client) {
   const eventsPath = join(process.cwd(), 'src/events');
@@ -18,6 +19,6 @@ export async function loadEvents(client: Client) {
     } else {
       client.on(event.name, (...args) => event.execute(client, ...args));
     }
-    console.log(`[Events] Loaded: ${event.name}`);
+    consoleLog(`Loaded: ${event.name}`);
   }
 }
