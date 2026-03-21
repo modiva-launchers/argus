@@ -43,7 +43,7 @@ const prompt = `
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-export async function analyzeServersWithAI(serversArray: JSON) {
+export async function analyzeServersWithAI(serversArray: String) {
   const response = await ai.models.generateContent({
     model: "gemini-3.1-flash-lite-preview",
     generationConfig: {

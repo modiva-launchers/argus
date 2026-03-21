@@ -17,6 +17,13 @@ export interface ServerItem {
   show_in_server_list: Boolean
 }
 
+interface serversForReviewInterface {
+  id: String,
+  name: String,
+  desc: String,
+  ip: String,
+}
+
 export async function checkServers() {
   try {
 
@@ -32,7 +39,7 @@ export async function checkServers() {
       filter: pb.filter('updated > {:date}', { date: lastModeratedAt })
     });
 
-    let serversForReview: Array<any> = []
+    let serversForReview: Array<serversForReviewInterface> = []
 
     if (resultList.length > 0) {
       resultList.forEach((server: ServerItem) => {
@@ -45,9 +52,8 @@ export async function checkServers() {
           })
         }
       })
-      serversForReview = JSON.stringify(serversForReview)
-      let aiResults = await analyzeServersWithAI(serversForReview);
-      aiResults = JSON.parse(aiResults)
+      let aiResults = await analyzeServersWithAI(JSON.stringify(serversForReview));
+      aiResults = JSON.parse(String(aiResults))
       console.log(aiResults)
 
       // Log the date of this check in the database
