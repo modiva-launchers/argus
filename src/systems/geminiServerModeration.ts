@@ -41,11 +41,14 @@ const prompt = `
   ΔΕΔΟΜΕΝΑ ΠΡΟΣ ΑΝΑΛΥΣΗ:
 `
 
-const ai = new GoogleGenAI({});
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
-export async function analyzeServersWithAI(serversArray: Array<ServerItem>) {
+export async function analyzeServersWithAI(serversArray: JSON) {
   const response = await ai.models.generateContent({
     model: "gemini-3.1-flash-lite-preview",
+    generationConfig: {
+      responseMimeType: "application/json",
+    },
     contents: `${prompt} \n ${serversArray}`,
   });
 
