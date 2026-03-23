@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
 import type { Command } from '../types';
-import { checkServers } from '../cron-jobs/serverWatcher';
+import checkServers from '../cron-jobs/serverWatcher';
 
 const command: Command = {
   data: new SlashCommandBuilder()

@@ -16,3 +16,30 @@ declare module 'discord.js' {
     commands: Collection<string, Command>;
   }
 }
+
+export interface aiResponseServerItem {
+  id: string,
+  status: 'SAFE' | 'SPAM' | 'UNSURE' | 'PRIVATE',
+  confidence: number,
+  reason: string
+}
+
+
+export interface serversForReview {
+  id: String,
+  name: String,
+  desc: String,
+  ip: String,
+}
+
+
+export interface ServerItem {
+  id: String,
+  updated: String,
+  server_name: String,
+  description: String,
+  ip: String,
+  port: String,
+  mods_url: String,
+  show_in_server_list: Boolean
+}

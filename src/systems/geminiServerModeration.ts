@@ -1,5 +1,4 @@
 import { GoogleGenAI } from "@google/genai";
-import type { ServerItem } from "../cron-jobs/serverWatcher";
 
 const prompt = `
   SYSTEM INSTRUCTIONS / PROMPT:
@@ -24,7 +23,7 @@ const prompt = `
 
   UNSURE: - Servers που δεν είναι ολοφάνερα κακόβουλοι αλλά η περιγραφή τους είναι εξαιρετικά φτωχή (1-2 λέξεις) χωρίς να είναι troll.
 
-  TEST: - Servers που ειναι ακομα σε development/test phase
+  PRIVATE: - Servers που ειναι ακομα σε development/test phase ή που δεν έχουν ανοίξει ακόμα (π.χ. coming soon description etc)
 
   ΚΑΝΟΝΑΣ Identification:
   Σου παρέχεται ένα μοναδικό ID για κάθε server. Πρέπει οπωσδήποτε να επιστρέψεις αυτό το ID στην απάντησή σου για να γίνει η ταυτοποίηση.
@@ -34,11 +33,11 @@ const prompt = `
 
   "id": το μοναδικό αναγνωριστικό του server
 
-  "status": SAFE, SPAM ή UNSURE
+  "status": SAFE, SPAM ή UNSURE, PRIVATE
 
   "confidence": αριθμός 0-100
 
-  "reason": σύντομη εξήγηση στα αγγλικά
+  "reason": σύντομη εξήγηση στα αγγλικά με την οποία δικαιολογείς στον ιδιωκτήτη του server τον λόγο που κάνεις τον server του suspend ή private.
 
   ΔΕΔΟΜΕΝΑ ΠΡΟΣ ΑΝΑΛΥΣΗ:
 `
