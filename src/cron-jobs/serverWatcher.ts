@@ -36,7 +36,7 @@ export async function checkServers() {
     lastModeratedAt = new Date(0);
 
     let resultList: any | Array<ServerItem> = await pb.collection('servers').getFullList({
-      filter: pb.filter('updated > {:date}', { date: lastModeratedAt })
+      filter: pb.filter('updated > {:date} && show_in_server_list=true && suspended=false', { date: lastModeratedAt })
     });
 
     let serversForReview: Array<serversForReviewInterface> = []
@@ -53,15 +53,22 @@ export async function checkServers() {
         }
       })
       let aiResults = await analyzeServersWithAI(JSON.stringify(serversForReview));
-      aiResults = JSON.parse(String(aiResults))
+      aiResults = JSON.parse(String(aiResults)).results
+
       console.log(aiResults)
+
+      // Check if the results are an array in case AI returns non-json response
+      if (Array.isArray(aiResults)) {
+        console.log('AI Results are in json format')
+      }
+
 
       // Log the date of this check in the database
       const data = {
         "last_moderation_check_at": String(Date.now())
       }
-
       await pb.collection('system_settings').update(systemSettingsRecord.id, data);
+
 
       consoleDebug('Server Moderation check is finished.')
     } else {

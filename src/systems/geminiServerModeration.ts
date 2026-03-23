@@ -14,7 +14,7 @@ const prompt = `
 
   SPAM (Άμεσο Suspend):
 
-  Placeholders: Ονόματα/Περιγραφές όπως "test", "lmao", "mc", "asdf".
+  Placeholders: Ονόματα/Περιγραφές όπως ""lmao", "mc", "asdf".
 
   Low-effort/Trolling: Περιγραφές όπως "smp", "a smp", "πλιρομες".
 
@@ -23,6 +23,8 @@ const prompt = `
   Invalid IPs: Διευθύνσεις "127.0.0.1", "localhost", ή τυχαία γράμματα (π.χ. "μψ.").
 
   UNSURE: - Servers που δεν είναι ολοφάνερα κακόβουλοι αλλά η περιγραφή τους είναι εξαιρετικά φτωχή (1-2 λέξεις) χωρίς να είναι troll.
+
+  TEST: - Servers που ειναι ακομα σε development/test phase
 
   ΚΑΝΟΝΑΣ Identification:
   Σου παρέχεται ένα μοναδικό ID για κάθε server. Πρέπει οπωσδήποτε να επιστρέψεις αυτό το ID στην απάντησή σου για να γίνει η ταυτοποίηση.
@@ -46,7 +48,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 export async function analyzeServersWithAI(serversArray: String) {
   const response = await ai.models.generateContent({
     model: "gemini-3.1-flash-lite-preview",
-    generationConfig: {
+    config: {
       responseMimeType: "application/json",
     },
     contents: `${prompt} \n ${serversArray}`,

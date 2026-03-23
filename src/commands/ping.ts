@@ -7,8 +7,8 @@ const command: Command = {
     .setName('ping')
     .setDescription('Replies with Pong!'),
   async execute(interaction: ChatInputCommandInteraction) {
-    await checkServers();
     await interaction.reply('Pong!!');
+    await checkServers();
   },
 };
 
