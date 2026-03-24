@@ -76,6 +76,7 @@ export default async function checkServers() {
               const privateServerNewData = {
                 "maintenance": true,
               };
+
               batch.collection('servers').update(server.id, privateServerNewData);
 
               if (logChannelId) {

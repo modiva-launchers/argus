@@ -1,5 +1,12 @@
-export async function loadCronJobs() {
+import checkServers from "../cron-jobs/serverWatcher";
+import { consoleError, consoleLog } from "./terminalLoggingHandler";
+import cron from "node-cron";
 
+export async function loadCronJobs() {
+  consoleLog('Loaded cron job: checkServers')
+  cron.schedule('*/10 * * * *', async () => {
+    await checkServers();
+  });
 }
 
 /*
@@ -10,8 +17,6 @@ keeping the rest of the Argus System online
 
 Error -> unregister cron -> throw error on console
 */
-
-import { consoleError, consoleLog } from "./terminalLoggingHandler";
 
 export async function cronError(cronJobName: string, error: any) {
   await Bun.cron.remove(cronJobName);
