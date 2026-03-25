@@ -1,24 +1,60 @@
 import checkServers from "../cron-jobs/serverWatcher";
 import { consoleError, consoleLog } from "./terminalLoggingHandler";
-import cron from "node-cron";
+import cron, { type ScheduledTask } from "node-cron";
+import { updateStatusMonitor } from "../systems/statusMonitor";
 
-export async function loadCronJobs() {
-  consoleLog('Loaded cron job: checkServers')
-  cron.schedule('*/10 * * * *', async () => {
-    await checkServers();
-  });
+let nextServerCheck: Date | null = null;
+const tasks: Map<string, ScheduledTask> = new Map();
+
+export function getNextServerCheck() {
+  return nextServerCheck;
 }
 
-/*
-Cron Jobs can cause severe performance issues if they break
-Therefore this functions unregisters them if they fail, while
-keeping the rest of the Argus System online
+function updateNextServerCheck() {
+  const now = new Date();
+  const minutes = now.getMinutes();
+  const nextMinutes = Math.ceil((minutes + 0.1) / 10) * 10;
 
+  const next = new Date(now);
+  next.setMinutes(nextMinutes, 0, 0);
 
-Error -> unregister cron -> throw error on console
-*/
+  if (next <= now) {
+    next.setMinutes(next.getMinutes() + 10);
+  }
+
+  nextServerCheck = next;
+}
+
+export async function loadCronJobs() {
+  consoleLog('Loaded cron job: checkServers');
+  updateNextServerCheck();
+
+  const serverCheckTask = cron.schedule('*/10 * * * *', async () => {
+    try {
+      await checkServers();
+      updateNextServerCheck();
+    } catch (error) {
+      await cronError('checkServers', error);
+    }
+  });
+  tasks.set('checkServers', serverCheckTask);
+
+  consoleLog('Loaded cron job: statusMonitor');
+  const statusMonitorTask = cron.schedule('* * * * *', async () => {
+    try {
+      await updateStatusMonitor();
+    } catch (error) {
+      await cronError('statusMonitor', error);
+    }
+  });
+  tasks.set('statusMonitor', statusMonitorTask);
+}
 
 export async function cronError(cronJobName: string, error: any) {
-  await Bun.cron.remove(cronJobName);
+  const task = tasks.get(cronJobName);
+  if (task) {
+    task.stop();
+    tasks.delete(cronJobName);
+  }
   consoleError(`Cron job named ${cronJobName} has been stopped due to error`, error)
 }

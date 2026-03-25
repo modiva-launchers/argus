@@ -1,19 +1,16 @@
-import PocketBase from 'pocketbase';
 import { consoleDebug, consoleError, consoleLog } from '../handlers/terminalLoggingHandler';
 import { analyzeServersWithAI } from '../systems/geminiServerModeration';
 import type { aiResponseServerItem, ServerItem, serversForReview } from '../types';
 import { sendDiscordLog } from '../handlers/discordLoggingHandler';
 import { Colors } from 'discord.js';
+import { getPbClient } from '../handlers/pbHandler';
 
-const pb = new PocketBase('https://pb.modiva-launcher.xyz');
-const pb_email: string | undefined = process.env.PB_EMAIL;
-const pb_password: string | undefined = process.env.PB_PASSWORD;
 const logChannelId = process.env.LOG_CHANNEL_ID as string;
 
 export default async function checkServers() {
   consoleDebug('AI Server Moderation Check Triggered')
   try {
-    await pb.collection("_superusers").authWithPassword(String(pb_email), String(pb_password));
+    const pb = await getPbClient();
 
     // lastModeratedAt returns date in ms format in UTC
     const systemSettingsRecord = await pb.collection('system_settings').getOne('5ya60ctsus4vv2t', {});
