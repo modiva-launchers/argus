@@ -1,7 +1,7 @@
 import checkServers from "../cron-jobs/serverWatcher";
 import { consoleError, consoleLog } from "./terminalLoggingHandler";
 import cron, { type ScheduledTask } from "node-cron";
-import { updateStatusMonitor } from "../systems/statusMonitor";
+import { updateStatusMonitor } from "../cron-jobs/statusMonitor";
 
 let nextServerCheck: Date | null = null;
 const tasks: Map<string, ScheduledTask> = new Map();
