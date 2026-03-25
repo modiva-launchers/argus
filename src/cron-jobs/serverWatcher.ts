@@ -27,6 +27,12 @@ export default async function checkServers() {
     let serversForReview: Array<serversForReview> = [];
 
     if (resultList.length > 0) {
+
+      // Keep track of how many servers are going to be
+      // changed on the database to cancel batch request
+      // in case there are none
+      let moderatedServers: number = 0
+
       resultList.forEach((server: ServerItem) => {
         if (server.show_in_server_list === true) {
           serversForReview.push({
@@ -55,6 +61,7 @@ export default async function checkServers() {
                 "suspended": true,
                 "suspension_reason": server.reason
               };
+              moderatedServers = moderatedServers++
               batch.collection('servers').update(server.id, spamServerNewData);
 
               if (logChannelId) {
@@ -78,6 +85,7 @@ export default async function checkServers() {
               };
 
               batch.collection('servers').update(server.id, privateServerNewData);
+              moderatedServers = moderatedServers++
 
               if (logChannelId) {
                 await sendDiscordLog({
@@ -95,7 +103,9 @@ export default async function checkServers() {
               break;
           }
         }
-        await batch.send();
+        if (moderatedServers > 0) {
+          await batch.send();
+        }
       } else {
         consoleError('There was some issue while processing AI Server Analysis', aiResults);
 
