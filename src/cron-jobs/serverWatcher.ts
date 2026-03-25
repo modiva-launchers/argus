@@ -58,7 +58,7 @@ export default async function checkServers() {
                 "suspended": true,
                 "suspension_reason": server.reason
               };
-              moderatedServers = moderatedServers++
+              moderatedServers++
               batch.collection('servers').update(server.id, spamServerNewData);
 
               if (logChannelId) {
@@ -82,7 +82,7 @@ export default async function checkServers() {
               };
 
               batch.collection('servers').update(server.id, privateServerNewData);
-              moderatedServers = moderatedServers++
+              moderatedServers++
 
               if (logChannelId) {
                 await sendDiscordLog({
