@@ -29,7 +29,7 @@ export async function updateStatusMonitor() {
 
     const sections = await getStatusSections();
     const embed = new EmbedBuilder()
-      .setTitle('✨ Modiva Argus - System Control Panel')
+      .setTitle('Modiva Argus - System Control Panel')
       .setThumbnail(client.user?.displayAvatarURL() || null)
       .setColor(0x9b59b6) // Deep Purple
       .setTimestamp()
