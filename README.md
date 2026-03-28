@@ -58,5 +58,8 @@ We've also built a simple monitoring service so we can track live stats & growth
 ### Technologies Used
 Argus is using [Bun](https://bun.com/) under the hood for performance and low resources usage. We are also relying on other libraries such as [Discord.JS](https://discord.js.org/docs/packages/discord.js/14.25.1) for communicating with the Discord API and [Google GenAI SDK](https://ai.google.dev/gemini-api/docs/migrate) for our AI features.
 
+### License
+This project is licensed under the [GNU General Public License v3.0](https://github.com/modiva-launchers/argus/blob/main/LICENSE). Make sure to read its conditions before messing in any way with the code.
+
 ## Modiva Launcher
 This entire project is meant to serve the needs of the [Modiva Launcher](https://modiva-launcher.xyz/) Launcher. Make sure to check it out before starting your next Minecraft Server!
