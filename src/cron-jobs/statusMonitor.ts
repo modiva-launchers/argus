@@ -73,7 +73,9 @@ async function getStatusSections(): Promise<StatusSection[]> {
 
   // Fetch PocketBase Statistics
   const pb = await getPbClient();
-  let stats = { total: 0, suspended: 0, active: 0, maintenance: 0 };
+  let stats: { total: number | string, suspended: number | string, active: number | string, maintenance: number | string } = { 
+    total: 'Error', suspended: 'Error', active: 'Error', maintenance: 'Error' 
+  };
 
   try {
     const [total, suspended, active, maintenance] = await Promise.all([
