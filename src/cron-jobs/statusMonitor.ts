@@ -73,8 +73,8 @@ async function getStatusSections(): Promise<StatusSection[]> {
 
   // Fetch PocketBase Statistics
   const pb = await getPbClient();
-  let stats: { total: number | string, suspended: number | string, active: number | string, maintenance: number | string } = { 
-    total: 'Error', suspended: 'Error', active: 'Error', maintenance: 'Error' 
+  let stats: { total: number | string, suspended: number | string, active: number | string, maintenance: number | string } = {
+    total: 'Error', suspended: 'Error', active: 'Error', maintenance: 'Error'
   };
 
   try {
@@ -110,9 +110,9 @@ async function getStatusSections(): Promise<StatusSection[]> {
       name: '📊 Server Inventory',
       value: [
         `> 🌐 **Total Servers:** \`${stats.total}\``,
-        `> 📝 **Listed Servers:** \`${stats.active}\``,
-        `> 🛠️ **Maintenance:** \`${stats.maintenance}\``,
-        `> 🚫 **Suspended:** \`${stats.suspended}\``
+        `> 📝 **Enlisted Servers:** \`${stats.active}\``,
+        `> 🔒 **Private Servers:** \`${stats.maintenance}\``,
+        `> 🚫 **Suspended Servers:** \`${stats.suspended}\``
       ].join('\n'),
       inline: false
     }
