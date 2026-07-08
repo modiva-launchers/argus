@@ -26,18 +26,18 @@ function updateNextServerCheck() {
 }
 
 export async function loadCronJobs() {
-  consoleLog('Loaded cron job: checkServers');
-  updateNextServerCheck();
+  // consoleLog('Loaded cron job: checkServers');
+  // updateNextServerCheck();
 
-  const serverCheckTask = cron.schedule('*/10 * * * *', async () => {
-    try {
-      await checkServers();
-      updateNextServerCheck();
-    } catch (error) {
-      await cronError('checkServers', error);
-    }
-  });
-  tasks.set('checkServers', serverCheckTask);
+  // const serverCheckTask = cron.schedule('*/10 * * * *', async () => {
+  //   try {
+  //     await checkServers();
+  //     updateNextServerCheck();
+  //   } catch (error) {
+  //     await cronError('checkServers', error);
+  //   }
+  // });
+  // tasks.set('checkServers', serverCheckTask);
 
   consoleLog('Loaded cron job: statusMonitor');
   const statusMonitorTask = cron.schedule('* * * * *', async () => {
